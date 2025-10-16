@@ -209,11 +209,104 @@ if (aboutStats) {
     statsObserver.observe(aboutStats);
 }
 
-// Add loading animation
+// Modern Loading Screen
 window.addEventListener('load', () => {
-    document.body.style.opacity = '1';
+    setTimeout(() => {
+        const loadingScreen = document.getElementById('loading-screen');
+        loadingScreen.classList.add('hidden');
+        document.body.style.opacity = '1';
+        
+        // Remove loading screen from DOM after animation
+        setTimeout(() => {
+            loadingScreen.remove();
+        }, 500);
+    }, 1500); // Show loading for 1.5 seconds minimum
 });
 
 // Set initial body opacity for loading effect
 document.body.style.opacity = '0';
 document.body.style.transition = 'opacity 0.3s ease-in-out';
+
+// Modern Scroll Animation System
+class ModernScrollAnimations {
+    constructor() {
+        this.observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        this.init();
+    }
+
+    init() {
+        this.setupIntersectionObserver();
+        this.addParallaxEffect();
+        this.addModernCursor();
+    }
+
+    setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
+                }
+            });
+        }, this.observerOptions);
+
+        // Observe all animation elements
+        document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right').forEach(el => {
+            observer.observe(el);
+        });
+    }
+
+    addParallaxEffect() {
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.floating-card');
+            
+            parallaxElements.forEach((element, index) => {
+                const speed = 0.5 + (index * 0.1);
+                const yPos = -(scrolled * speed);
+                element.style.transform = `translate3d(0, ${yPos}px, 0)`;
+            });
+        });
+    }
+
+    addModernCursor() {
+        // Create custom cursor
+        const cursor = document.createElement('div');
+        cursor.classList.add('modern-cursor');
+        document.body.appendChild(cursor);
+
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        const animateCursor = () => {
+            cursorX += (mouseX - cursorX) * 0.1;
+            cursorY += (mouseY - cursorY) * 0.1;
+            
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            
+            requestAnimationFrame(animateCursor);
+        };
+        animateCursor();
+
+        // Add hover effects
+        document.querySelectorAll('a, button, .service-card, .blog-card').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+    }
+}
+
+// Initialize modern animations when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    new ModernScrollAnimations();
+});
