@@ -274,35 +274,7 @@ class ModernScrollAnimations {
     }
 
     addModernCursor() {
-        // Create custom cursor
-        const cursor = document.createElement('div');
-        cursor.classList.add('modern-cursor');
-        document.body.appendChild(cursor);
-
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-
-        const animateCursor = () => {
-            cursorX += (mouseX - cursorX) * 0.1;
-            cursorY += (mouseY - cursorY) * 0.1;
-            
-            cursor.style.left = cursorX + 'px';
-            cursor.style.top = cursorY + 'px';
-            
-            requestAnimationFrame(animateCursor);
-        };
-        animateCursor();
-
-        // Add hover effects
-        document.querySelectorAll('a, button, .service-card, .blog-card').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-        });
+        // Custom cursor functionality removed
     }
 }
 
